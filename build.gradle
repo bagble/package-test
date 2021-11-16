@@ -94,4 +94,35 @@ publishing {
             }
         }
     }
+
+    publications {
+        "maven"(MavenPublication) {
+            groupId = project.properties.get("pluginGroup").toString()
+            version = project.properties.get("pluginVersion").toString()
+            from(components["java"])
+
+            pom {
+                name.set(rootProject.name)
+                description.set("Simple deploy test")
+                url.set("https://github.com/bagble/${rootProject.name}")
+
+                developers {
+                    developer {
+                        id.set("bagble")
+                        name.set("bagble")
+                        email.set("bagble@gmail.com")
+                        url.set("https://github.com/bagble")
+                        roles.addAll("developer")
+                        timezone.set("Asia/Seoul")
+                    }
+                }
+
+                scm {
+                    connection.set("scm:git:git://github.com/bagble/${rootProject.name}.git")
+                    developerConnection.set("scm:git:ssh://github.com:bagble/${rootProject.name}.git")
+                    url.set("https://github.com/bagble/${rootProject.name}")
+                }
+            }
+        }
+    }
 }
