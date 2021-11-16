@@ -1,6 +1,7 @@
 plugins {
     id 'com.github.johnrengelman.shadow' version '7.0.0'
     id 'java'
+    id 'maven-publish'
 }
 
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(16))
@@ -78,5 +79,48 @@ task paperJar(type: Jar, dependsOn: classes) {
 
     assemble {
         dependsOn(shadowJar)
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "github"
+            url = uri("https://maven.pkg.github.com/bagble/${rootProject.name}")
+
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+
+    publications {
+        "$rootProject.name"(MavenPublication) {
+            from(components["java"])
+
+            pom {
+                name.set(rootProject.name)
+                description.set("Simple deploy test")
+                url.set("https://github.com/bagble/${rootProject.name}")
+
+                developers {
+                    developer {
+                        id.set("bagble")
+                        name.set("bagble")
+                        email.set("bagble@gmail.com")
+                        url.set("https://github.com/bagble")
+                        roles.addAll("developer")
+                        timezone.set("Asia/Seoul")
+                    }
+                }
+
+                scm {
+                    connection.set("scm:git:git://github.com/bagble/${rootProject.name}.git")
+                    developerConnection.set("scm:git:ssh://github.com:bagble/${rootProject.name}.git")
+                    url.set("https://github.com/bagble/${rootProject.name}")
+                }
+            }
+        }
     }
 }
