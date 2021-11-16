@@ -90,7 +90,7 @@ publishing {
 
             credentials {
                 username = "bagble"
-                password = System.getenv("TOKEN")
+                password = System.getenv("GITHUB_TOKEN")
             }
         }
     }
