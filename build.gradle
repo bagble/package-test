@@ -89,14 +89,16 @@ publishing {
             url = uri("https://maven.pkg.github.com/bagble/${rootProject.name}")
 
             credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
+                username = "bagble"
+                password = System.getenv("TOKEN")
             }
         }
     }
 
     publications {
         "$rootProject.name"(MavenPublication) {
+            groupId = project.properties.get("pluginGroup").toString()
+            version = project.properties.get("pluginVersion").toString()
             from(components["java"])
 
             pom {
