@@ -99,7 +99,6 @@ publishing {
         "maven"(MavenPublication) {
             groupId = project.properties.get("pluginGroup").toString()
             version = project.properties.get("pluginVersion").toString()
-            from(components["java"])
 
             pom {
                 name.set(rootProject.name)
@@ -123,6 +122,8 @@ publishing {
                     url.set("https://github.com/bagble/${rootProject.name}")
                 }
             }
+
+            artifact(jar)
         }
     }
 }
